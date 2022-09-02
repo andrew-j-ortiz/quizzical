@@ -1,10 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Start from './components/Start'
 
 function App() {
+  const [showStart, setShowStart] = useState(true)
+
+  function startQuiz() {
+    setShowStart(false)
+  }
+
   return (
     <div>
-      <Start />
+      {showStart ? <Start startQuiz={startQuiz}/> : ""}
     </div>
   )
 }

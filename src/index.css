@@ -9,14 +9,52 @@ body, div, h1, h2, h3, h4, h5, h6, p {
   margin: 0;
 }
 
+.big-button {
+  background-color: #4D5B9E;
+  border: none;
+  color: white;
+  width: 203px;
+  height: 62px;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.big-button:active {
+  color: #4D5B9E;
+}
+
 /* Start */
 
 .start {
-  background-color: #F5F7FB;
+  background-image: linear-gradient(to right, #c4cdff , #FFFAD1);
   display: flex;
   height: 100vh;
 }
 
 .start--content {
-
+  color: #293264;
+  margin: auto;
+  text-align: center;
+  font-family: 'Karla';
 }
+
+.start--letter-container {
+  margin: 50px 0;
+}
+
+.start--title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 37px;
+}
+
+.start--description {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 19px;
+}
+
