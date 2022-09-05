@@ -27,6 +27,7 @@ function App() {
         showStart ? <Start startQuiz={startQuiz}/> : 
         <div className='quiz'>
           {questions}
+          <button className="big-button">Check Answers</button>
         </div>
       }
     </div>

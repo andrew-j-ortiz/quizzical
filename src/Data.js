@@ -35,6 +35,14 @@ export default {
             "choice_three": "Jericho 941",
             "choice_four": "H&K USP",
             "answer": "H&K USP"
+        }, {
+            "id": 5,
+            "question": "Who is Gon's best friend in Hunter x Hunter?",
+            "choice_one": "Leorio",
+            "choice_two": "Kurapika",
+            "choice_three": "Killua", 
+            "choice_four": "Hisoka",
+            "answer": "Killua"
         }
     ]
 }
