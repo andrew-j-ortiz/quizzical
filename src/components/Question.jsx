@@ -1,73 +1,69 @@
-import {useState, useEffect} from "react";
+import React from "react";
 
-function Question({question, choice_one, choice_two, choice_three, choice_four}) {
-    const [formData, setFormData] = useState({ choice: "" })
-
-    function handleChange(event) {
-        const {name, value} = event.target
-        setFormData(prevFormData => {
-            return {
-                ...prevFormData,
-                [name]: value
-            }
-        })
-    }
+function Question({ 
+                    question, 
+                    form, 
+                    handleChange, 
+                    group, 
+                    choice_one, 
+                    choice_two, 
+                    choice_three, 
+                    choice_four
+                }) {
 
     return (
-        <form>
-            <fieldset>
-                <div className="question--title">
-                    <h3>{question}</h3>
-                </div>
+        <fieldset>
+            <div className="question--title">
+                <h3>{question}</h3>
+            </div>
 
-                <div className="choices--container">
-                    <input
-                        type="radio" 
-                        id={choice_one}
-                        name="choice"
-                        value={choice_one}
-                        onChange={handleChange}
-                        checked={formData.choice === choice_one}
-                    />
-                    <label htmlFor={choice_one}>{choice_one}</label>
-                    <br />
+            <div className="choices--container">
+                <input
+                    type="radio" 
+                    id={choice_one}
+                    name={group}
+                    value={choice_one}
+                    onChange={()=>handleChange(event)}
+                    checked={form === choice_one}
+                />
+                <label htmlFor={choice_one}>{choice_one}</label>
+                <br />
 
-                    <input 
-                        type="radio" 
-                        id={choice_two}
-                        name="choice"
-                        value={choice_two}
-                        onChange={handleChange}
-                        checked={formData.choice === choice_two}
-                    />
-                    <label htmlFor={choice_two}>{choice_two}</label>
-                    <br />
+                <input 
+                    type="radio" 
+                    id={choice_two}
+                    name={group}
+                    value={choice_two}
+                    onChange={()=>handleChange(event)}
+                    checked={form === choice_two}
+                />
+                <label htmlFor={choice_two}>{choice_two}</label>
+                <br />
 
-                    <input 
-                        type="radio" 
-                        id={choice_three}
-                        name="choice"
-                        value={choice_three}
-                        onChange={handleChange}
-                        checked={formData.choice === choice_three}
-                    />
-                    <label htmlFor={choice_three}>{choice_three}</label>
-                    <br />
+                <input 
+                    type="radio" 
+                    id={choice_three}
+                    name={group}
+                    value={choice_three}
+                    onChange={()=>handleChange(event)}
+                    checked={form === choice_three}
+                />
+                <label htmlFor={choice_three}>{choice_three}</label>
+                <br />
 
-                    <input 
-                        type="radio" 
-                        id={choice_four}
-                        name="choice"
-                        value={choice_four}
-                        onChange={handleChange}
-                        checked={formData.choice === choice_four}
-                    />
-                    <label htmlFor={choice_four}>{choice_four}</label>
-                    <br />
-                </div>
-                <hr />
-            </fieldset>
-        </form>
+                <input 
+                    type="radio" 
+                    id={choice_four}
+                    name={group}
+                    value={choice_four}
+                    onChange={()=>handleChange(event)}
+                    checked={form === choice_four}
+                />
+                <label htmlFor={choice_four}>{choice_four}</label>
+                <br />
+            </div>
+            <hr />
+        </fieldset>
     )
 }
 
