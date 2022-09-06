@@ -10,11 +10,17 @@ function Question({
                     choice_three, 
                     choice_four
                 }) {
+    const parser = new DOMParser();
+    const parsedQuestion = parser.parseFromString(`<!doctype html><body>${question}`, 'text/html').body.textContent
+    const parsedChoiceOne = parser.parseFromString(`<!doctype html><body>${choice_one}`, 'text/html').body.textContent
+    const parsedChoiceTwo = parser.parseFromString(`<!doctype html><body>${choice_two}`, 'text/html').body.textContent
+    const parsedChoiceThree = parser.parseFromString(`<!doctype html><body>${choice_three}`, 'text/html').body.textContent
+    const parsedChoiceFour = parser.parseFromString(`<!doctype html><body>${choice_four}`, 'text/html').body.textContent
 
     return (
         <fieldset>
             <div className="question--title">
-                <h3>{question}</h3>
+                <h3>{parsedQuestion}</h3>
             </div>
 
             <div className="choices--container">
@@ -26,7 +32,7 @@ function Question({
                     onChange={()=>handleChange(event)}
                     checked={form === choice_one}
                 />
-                <label htmlFor={choice_one}>{choice_one}</label>
+                <label htmlFor={choice_one}>{parsedChoiceOne}</label>
                 <br />
 
                 <input 
@@ -37,7 +43,7 @@ function Question({
                     onChange={()=>handleChange(event)}
                     checked={form === choice_two}
                 />
-                <label htmlFor={choice_two}>{choice_two}</label>
+                <label htmlFor={choice_two}>{parsedChoiceTwo}</label>
                 <br />
 
                 <input 
@@ -48,7 +54,7 @@ function Question({
                     onChange={()=>handleChange(event)}
                     checked={form === choice_three}
                 />
-                <label htmlFor={choice_three}>{choice_three}</label>
+                <label htmlFor={choice_three}>{parsedChoiceThree}</label>
                 <br />
 
                 <input 
@@ -59,7 +65,7 @@ function Question({
                     onChange={()=>handleChange(event)}
                     checked={form === choice_four}
                 />
-                <label htmlFor={choice_four}>{choice_four}</label>
+                <label htmlFor={choice_four}>{parsedChoiceFour}</label>
                 <br />
             </div>
             <hr />

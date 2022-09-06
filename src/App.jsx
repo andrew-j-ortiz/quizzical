@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import Start from './components/Start'
-import Data from './Data'
 import Question from './components/Question'
 import Answers from './components/Answers'
 
 function App() {
   const [showStart, setShowStart] = useState(true)
   const [showQuiz, setShowQuiz] = useState(true)
+  const [triviaData, setTriviaData] = useState([])
+  const [orderOfChoices, setOrderOfChoices] = useState([])
   const [formData, setFormData] = useState({
     group1: "",
     group2: "",
@@ -15,8 +16,26 @@ function App() {
     group5: ""
   })
 
+  
+  useEffect(()=>{
+    fetch("https://opentdb.com/api.php?amount=5&type=multiple")
+      .then(res => res.json())
+      .then(data => setTriviaData(data))
+  }, [showStart])
+
+  useEffect(()=>{
+    for (let index = 0; index < 5; index++) {
+      let num = Math.floor(Math.random() * 3);
+      const order = orders[num]
+      setOrderOfChoices(prevState => {
+        return [...prevState, order]
+      })
+    }
+  }, [showStart])
+
   function startQuiz() {
     setShowStart(false)
+    console.log(triviaData)
   }
 
   function handleChange(event) {
@@ -30,58 +49,68 @@ function App() {
     )
   }
 
-  const questions = Data.questions.map(problem => {
+  const keys = [1, 2, 3, 4, 5]
+  const orders = [
+    [0, 1, 2, 3],
+    [3, 2, 1, 0],
+    [3, 2, 0, 1],
+    [0, 2, 3, 1]
+  ]
+
+  const questions = triviaData.results?.map((problem, index) => {
     let form
-    const group = "group" + problem.id
-    if (problem.id === 1) {
+    const choices = [...problem.incorrect_answers, [...problem.correct_answer].join("")]
+    const group = "group" + keys[index]
+    if (keys[index] === 1) {
       form = formData.group1
-    } else if (problem.id === 2) {
+    } else if (keys[index] === 2) {
       form = formData.group2
-    } else if (problem.id === 3) {
+    } else if (keys[index] === 3) {
       form = formData.group3
-    } else if (problem.id === 4) {
+    } else if (keys[index] === 4) {
       form = formData.group4
-    } else if (problem.id === 5) {
+    } else if (keys[index] === 5) {
       form = formData.group5
     }
 
     return <Question
-      key={problem.id} 
+      key={keys[index]}
       form={form}
       group={group}
       handleChange={handleChange}
       question={problem.question}
-      choice_one={problem.choice_one}
-      choice_two={problem.choice_two}
-      choice_three={problem.choice_three}
-      choice_four={problem.choice_four}
+      choice_one={choices[orderOfChoices[index][0]]}
+      choice_two={choices[orderOfChoices[index][1]]}
+      choice_three={choices[orderOfChoices[index][2]]}
+      choice_four={choices[orderOfChoices[index][3]]}
     />
   })
 
-  const answers = Data.questions.map(problem => {
+  const answers = triviaData.results?.map((problem, index) => {
     let wrong
-    if (problem.id === 1) {
+    const choices = [...problem.incorrect_answers, [...problem.correct_answer].join("")]
+    if (keys[index] === 1) {
       wrong = formData.group1
-    } else if (problem.id === 2) {
+    } else if (keys[index] === 2) {
       wrong = formData.group2
-    } else if (problem.id === 3) {
+    } else if (keys[index] === 3) {
       wrong = formData.group3
-    } else if (problem.id === 4) {
+    } else if (keys[index] === 4) {
       wrong = formData.group4
-    } else if (problem.id === 5) {
+    } else if (keys[index] === 5) {
       wrong = formData.group5
     }
 
     return (
       <Answers 
-        key={problem.id}
+        key={keys[index]}
         question={problem.question}
-        choice_one={problem.choice_one}
-        choice_two={problem.choice_two}
-        choice_three={problem.choice_three}
-        choice_four={problem.choice_four}
-        answer={problem.answer}
+        choice_one={choices[orderOfChoices[index][0]]}
+        choice_two={choices[orderOfChoices[index][1]]}
+        choice_three={choices[orderOfChoices[index][2]]}
+        choice_four={choices[orderOfChoices[index][3]]}
         wrong={wrong}
+        answer={problem.correct_answer}
       />
     )
   })
@@ -93,15 +122,17 @@ function App() {
 
   function correctAnswers() {
     let correct = 0
-    Data.questions.forEach(question => {
-      if (question.answer === formData.group1) {
-        correct++
-      } else if (question.answer === formData.group2) {
-        correct++
-      } else if (question.answer === formData.group3) {
-        correct++
-      } else if (question.answer === formData.group4) {
-        correct++
+    triviaData.results?.forEach(question => {
+      if (question.correct_answer === formData.group1) {
+        ++correct
+      } else if (question.correct_answer === formData.group2) {
+        ++correct
+      } else if (question.correct_answer === formData.group3) {
+        ++correct
+      } else if (question.correct_answer === formData.group4) {
+        ++correct
+      } else if (question.correct_answer === formData.group5) {
+        ++correct
       }
     })
     return correct
